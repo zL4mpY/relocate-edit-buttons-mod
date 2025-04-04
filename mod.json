@@ -1,0 +1,21 @@
+{
+	"geode": "4.2.0",
+	"gd": {
+		"win": "2.2074",
+		"android": "2.2074",
+		"mac": "2.2074",
+		"ios": "2.2074"
+	},
+	"id": "loovigmd.relocate_edit_buttons",
+	"name": "Relocate Edit Buttons",
+	"version": "v1.0.0",
+	"developer": "loovigmd",
+	"description": "Moves mods' edit buttons to an other tab",
+	"dependencies": {
+		"alphalaneous.editortab_api": {
+			"importance": "required",
+			"version": ">=1.0.13"
+		}
+	},
+	"tags": ["editor", "enhancement"]
+}
