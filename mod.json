@@ -1,9 +1,10 @@
 {
-	"geode": "4.2.0",
+	"geode": "4.3.1",
 	"gd": {
 		"win": "2.2074",
 		"android": "2.2074",
-		"mac": "2.2074"
+		"mac": "2.2074",
+		"ios": "2.2074"
 	},
 	"id": "loovigmd.relocate_edit_buttons",
 	"name": "Relocate Edit Buttons",
@@ -13,7 +14,7 @@
 	"dependencies": {
 		"alphalaneous.editortab_api": {
 			"importance": "required",
-			"version": ">=1.0.13"
+			"version": ">=1.0.14"
 		}
 	},
 	"tags": ["editor", "enhancement"]
