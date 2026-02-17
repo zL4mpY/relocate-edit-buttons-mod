@@ -9,7 +9,7 @@
 	"id": "loovigmd.relocate_edit_buttons",
 	"name": "Relocate Edit Buttons",
 	"version": "v1.0.1",
-	"developer": "loovigmd",
+	"developer": "enimeoww",
 	"description": "Moves mods' edit buttons to an other tab",
 	"dependencies": {
 		"alphalaneous.editortab_api": ">=2.0.1"
