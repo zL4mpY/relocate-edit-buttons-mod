@@ -27,14 +27,39 @@ class $modify(MyEditorUI, EditorUI) {
     bool init(LevelEditorLayer* editorLayer) {
         if (!EditorUI::init(editorLayer)) return false;
 
-        EditButtonBar* customEditBar = nullptr;
+        if (!m_editButtonBar) return true;
         
         alpha::editor_tabs::addTab("mods-tab"_spr, alpha::editor_tabs::EDIT,
         [&] {
-            std::vector<Ref<CCNode>> nodes;
+            std::vector<Ref<CCNode>> items;
 
-            customEditBar = alpha::editor_tabs::createEditButtonBar(nodes);
-            return customEditBar;
+            auto buttonsArray = CCArray::create();
+            bool placeButtons = false;
+
+            for (int i = 0; i < m_editButtonBar->m_buttonArray->count(); i++) {
+                auto* object = static_cast<CCMenuItemSpriteExtra*>(m_editButtonBar->m_buttonArray->objectAtIndex(i));
+
+                if (object->getID() == "warp-button") {
+                    placeButtons = true;
+                    continue;
+                }
+                
+                if (placeButtons) {
+                    if (static_cast<std::string>(object->getID()).find("move") == std::string::npos || object->getID() == "") {
+                        // log::debug("Adding button {} to custom bar", i);
+                        items.push_back(object);
+                        buttonsArray->addObject(object);
+                    };
+                }
+            }
+
+            m_editButtonBar->m_buttonArray->removeObjectsInArray(buttonsArray);
+
+            auto rows = GameManager::sharedState()->getIntGameVariable("0049");
+            auto cols = GameManager::sharedState()->getIntGameVariable("0050");
+            m_editButtonBar->loadFromItems(m_editButtonBar->m_buttonArray, rows, cols, false);
+
+            return alpha::editor_tabs::createEditButtonBar(items);
         },
         [] {
             CCLabelBMFont* textLabel = CCLabelBMFont::create("Mods", "bigFont.fnt");
@@ -42,38 +67,6 @@ class $modify(MyEditorUI, EditorUI) {
 
             return textLabel;
         });
-
-        // Thanks to kuel27 for helping
-        if (!customEditBar || !customEditBar->m_buttonArray) {
-            log::error("Failed to create or access the custom edit bar");
-            return true;
-        }
-
-        auto buttonsArray = CCArray::create();
-        bool placeButtons = false;
-        
-        for (int i = 0; i < m_editButtonBar->m_buttonArray->count(); i++) {
-            auto* object = static_cast<CCMenuItemSpriteExtra*>(m_editButtonBar->m_buttonArray->objectAtIndex(i));
-            if (object->getID() == "warp-button") {
-                placeButtons = true;
-                continue;
-            }
-            
-            if (placeButtons) {
-                if (static_cast<std::string>(object->getID()).find("move") == std::string::npos || object->getID() == "") {
-                    // log::debug("Adding button {} to custom bar", i);
-                    customEditBar->m_buttonArray->addObject(object);
-                    buttonsArray->addObject(object);
-                };
-            }
-        }
-
-        m_editButtonBar->m_buttonArray->removeObjectsInArray(buttonsArray);
-
-        auto rows = GameManager::sharedState()->getIntGameVariable("0049");
-		auto cols = GameManager::sharedState()->getIntGameVariable("0050");
-        customEditBar->loadFromItems(customEditBar->m_buttonArray, rows, cols, false);
-        m_editButtonBar->loadFromItems(m_editButtonBar->m_buttonArray, rows, cols, false);
 
         return true;
     };
